@@ -264,14 +264,6 @@ def sms():
     dinnerArray_rcc=[x.lower() for x in dinnerArray_rcc]
     lateNightArray_rcc=[x.lower() for x in lateNightArray_rcc]
 
-    print(breakfastArray_ten)
-    print('\n')
-    print(lunchArray_ten)
-    print('\n')
-    print(dinnerArray_ten)
-    print('\n')
-    print(lateNightArray_ten)
-
     found = 'Found in '
     array = [cowell,ten,merill,porter,rcc]
     message=[]
