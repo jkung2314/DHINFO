@@ -3,32 +3,36 @@ from twilio.twiml.messaging_response import MessagingResponse
 from twilio import twiml
 import requests
 import re
-import urllib.request
+import urllib2
 from bs4 import BeautifulSoup
 
 
-app = Flask(__name__)
+pp = Flask(__name__)
 
 @app.route("/sms", methods=['GET', 'POST'])
 
-def sms():
+def sms(message_body):
 
     message_body = request.form['Body'].lower()
 
-    cowell = 'http://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=05&locationName=Cowell&sName=&naFlag=', 'Cowell/Stevenson Dining Hall'
-    ten = 'http://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=40&locationName=College+Nine+%26+Ten&sName=&naFlag=', 'Colleges Nine & Ten Dining Hall'
-    merill = 'http://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=20&locationName=Crown+Merrill&sName=&naFlag=', 'Merill Cowell'
-    porter = 'http://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=25&locationName=Porter&sName=&naFlag=', 'Porter College'
-    rcc = 'http://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=30&locationName=Rachel+Carson+Oakes+Dining+Hall&sName=&naFlag=', 'Rachel Carson College'
+    cowell = 'http://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=05&locationName=Cowell&sName=&naFlag='
+    ten = 'http://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=40&locationName=College+Nine+%26+Ten&sName=&naFlag='
+    merill = 'http://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=20&locationName=Crown+Merrill&sName=&naFlag='
+    porter = 'http://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=25&locationName=Porter&sName=&naFlag='
+    rcc = 'http://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=30&locationName=Rachel+Carson+Oakes+Dining+Hall&sName=&naFlag='
+
+
+
+
 
     #cowell
     end_array=[]
-    breakfastIndex=-1
-    lunchIndex=-1
-    dinnerIndex=-1
-    lateNightIndex=-1
+    breakfastIndex=0
+    lunchIndex=0
+    dinnerIndex=0
+    lateNightIndex=0
 
-    html = urllib.request.urlopen(cowell)
+    html = urllib2.urlopen(cowell)
     soup = BeautifulSoup(html, "html.parser")
     data = soup.findAll(text=True)
     result = filter(visible, data)
@@ -40,7 +44,7 @@ def sms():
     dinnerArray_cowell=[]
     lateNightArray_cowell=[]
 
-    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info","\xa0"]
+    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info"]#,"\xa0"]
 
     for x in raw_code:
         for y in wordbank:
@@ -49,6 +53,8 @@ def sms():
         else:
             end_array.append(x)
     for x in end_array:
+        if 'No Data Available' in x:
+            break
         if "Breakfast" in x:
             breakfastIndex=end_array.index(x)
         elif "Lunch" in x:
@@ -68,12 +74,12 @@ def sms():
 
     #ten
     end_array=[]
-    breakfastIndex=-1
-    lunchIndex=-1
-    dinnerIndex=-1
-    lateNightIndex=-1
+    breakfastIndex=0
+    lunchIndex=0
+    dinnerIndex=0
+    lateNightIndex=0
 
-    html = urllib.request.urlopen(ten)
+    html = urllib2.urlopen(ten)
     soup = BeautifulSoup(html, "html.parser")
     data = soup.findAll(text=True)
     result = filter(visible, data)
@@ -85,7 +91,7 @@ def sms():
     dinnerArray_ten=[]
     lateNightArray_ten=[]
 
-    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info","\xa0"]
+    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info"]#,"\xa0"]
 
     for x in raw_code:
         for y in wordbank:
@@ -94,6 +100,8 @@ def sms():
         else:
             end_array.append(x)
     for x in end_array:
+        if 'No Data Available' in x:
+            break
         if "Breakfast" in x:
             breakfastIndex=end_array.index(x)
         elif "Lunch" in x:
@@ -114,24 +122,24 @@ def sms():
 
     #merill
     end_array=[]
-    breakfastIndex=-1
-    lunchIndex=-1
-    dinnerIndex=-1
-    lateNightIndex=-1
+    breakfastIndex=0
+    lunchIndex=0
+    dinnerIndex=0
+    lateNightIndex=0
 
-    html = urllib.request.urlopen(merrill)
+    html = urllib2.urlopen(merill)
     soup = BeautifulSoup(html, "html.parser")
     data = soup.findAll(text=True)
     result = filter(visible, data)
     raw_code = list(result)
     length = len(raw_code)
 
-    breakfastArray_merrill=[]
-    lunchArray_merrill=[]
-    dinnerArray_merrill=[]
-    lateNightArray_merrill=[]
+    breakfastArray_merill=[]
+    lunchArray_merill=[]
+    dinnerArray_merill=[]
+    lateNightArray_merill=[]
 
-    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info","\xa0"]
+    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info"]#,"\xa0"]
 
     for x in raw_code:
         for y in wordbank:
@@ -140,6 +148,8 @@ def sms():
         else:
             end_array.append(x)
     for x in end_array:
+        if 'No Data Available' in x:
+            break
         if "Breakfast" in x:
             breakfastIndex=end_array.index(x)
         elif "Lunch" in x:
@@ -150,22 +160,22 @@ def sms():
             lateNightIndex=end_array.index(x)
 
 
-    breakfastArray_merrill=end_array[breakfastIndex:lunchIndex]
-    lunchArray_merrill=end_array[lunchIndex+1:dinnerIndex]
-    dinnerArray_merrill=end_array[dinnerIndex+1:lateNightIndex]
-    lateNightArray_merrill=end_array[lateNightIndex+1:-9]
+    breakfastArray_merill=end_array[breakfastIndex:lunchIndex]
+    lunchArray_merill=end_array[lunchIndex+1:dinnerIndex]
+    dinnerArray_merill=end_array[dinnerIndex+1:lateNightIndex]
+    lateNightArray_merill=end_array[lateNightIndex+1:-9]
 
 
 
 
     #porter
     end_array=[]
-    breakfastIndex=-1
-    lunchIndex=-1
-    dinnerIndex=-1
-    lateNightIndex=-1
+    breakfastIndex=0
+    lunchIndex=0
+    dinnerIndex=0
+    lateNightIndex=0
 
-    html = urllib.request.urlopen(porter)
+    html = urllib2.urlopen(porter)
     soup = BeautifulSoup(html, "html.parser")
     data = soup.findAll(text=True)
     result = filter(visible, data)
@@ -177,7 +187,7 @@ def sms():
     dinnerArray_porter=[]
     lateNightArray_porter=[]
 
-    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info","\xa0"]
+    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info"]#,"\xa0"]
 
     for x in raw_code:
         for y in wordbank:
@@ -186,6 +196,8 @@ def sms():
         else:
             end_array.append(x)
     for x in end_array:
+        if 'No Data Available' in x:
+            break
         if "Breakfast" in x:
             breakfastIndex=end_array.index(x)
         elif "Lunch" in x:
@@ -204,12 +216,12 @@ def sms():
 
     #rcc
     end_array=[]
-    breakfastIndex=-1
-    lunchIndex=-1
-    dinnerIndex=-1
-    lateNightIndex=-1
+    breakfastIndex=0
+    lunchIndex=0
+    dinnerIndex=0
+    lateNightIndex=0
 
-    html = urllib.request.urlopen(rcc)
+    html = urllib2.urlopen(rcc)
     soup = BeautifulSoup(html, "html.parser")
     data = soup.findAll(text=True)
     result = filter(visible, data)
@@ -221,7 +233,7 @@ def sms():
     dinnerArray_rcc=[]
     lateNightArray_rcc=[]
 
-    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info","\xa0"]
+    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info"]#,"\xa0"]
 
     for x in raw_code:
         for y in wordbank:
@@ -230,6 +242,8 @@ def sms():
         else:
             end_array.append(x)
     for x in end_array:
+        if 'No Data Available' in x:
+            break
         if "Breakfast" in x:
             breakfastIndex=end_array.index(x)
         elif "Lunch" in x:
@@ -247,18 +261,60 @@ def sms():
 
 
 
+    #lowering all
+
+    breakfastArray_merill=[x.lower() for x in breakfastArray_merill]
+    lunchArray_merill=[x.lower() for x in lunchArray_merill]
+    dinnerArray_merill=[x.lower() for x in dinnerArray_merill]
+    lateNightArray_merill=[x.lower() for x in lateNightArray_merill]
+    breakfastArray_ten = [x.lower() for x in breakfastArray_ten]
+    lunchArray_ten=[x.lower() for x in lunchArray_ten]
+    dinnerArray_ten=[x.lower() for x in dinnerArray_ten]
+    lateNightArray_ten=[x.lower() for x in lateNightArray_ten]
+    breakfastArray_cowell=[x.lower() for x in breakfastArray_cowell]
+    lunchArray_cowell=[x.lower() for x in lunchArray_cowell]
+    dinnerArray_cowell=[x.lower() for x in dinnerArray_cowell]
+    lateNightArray_cowell=[x.lower() for x in lateNightArray_cowell]
+    breakfastArray_porter=[x.lower() for x in breakfastArray_porter]
+    lunchArray_porter=[x.lower() for x in lunchArray_porter]
+    dinnerArray_porter=[x.lower() for x in dinnerArray_porter]
+    lateNightArray_porter=[x.lower() for x in lateNightArray_porter]
+    breakfastArray_rcc=[x.lower() for x in breakfastArray_rcc]
+    lunchArray_rcc=[x.lower() for x in lunchArray_rcc]
+    dinnerArray_rcc=[x.lower() for x in dinnerArray_rcc]
+    lateNightArray_rcc=[x.lower() for x in lateNightArray_rcc]
 
 
 
 
-    breakfastArray
-    lunchArray
-    dinnerArray
-    lateNightArray
+    print(breakfastArray_ten)
+    print('\n')
+    print(lunchArray_ten)
+    print('\n')
+    print(dinnerArray_ten)
+    print('\n')
+    print(lateNightArray_ten)
+    # print(breakfastArray_ten)
+    # print(lunchArray_ten)
+    # print(dinnerArray_ten)
+    # print(lateNightArray_ten)
+    # print(breakfastArray_cowell)
+    # print(lunchArray_cowell)
+    # print(dinnerArray_cowell)
+    # print(lateNightArray_cowell)
+    # print(breakfastArray_porter)
+    # print(lunchArray_porter)
+    # print(dinnerArray_porter)
+    # print(lateNightArray_porter)
+    # print(breakfastArray_rcc)
+    # print(lunchArray_rcc)
+    # print(dinnerArray_rcc)
+    # print(lateNightArray_rcc)
+
 
     found = 'Found in '
     array = [cowell,ten,merill,porter,rcc]
-    page = requests.get(cowell[0])
+    #page = requests.get(cowell[0])
     foundFlag = False
     for college in array:
 
@@ -270,7 +326,7 @@ def sms():
             message = ("College Ten for breakfast,\n")
             found = found + message
             foundFlag = True
-        if message_body in breakfastArray_merrill:
+        if message_body in breakfastArray_merill:
             message = ("Merill for breakfast,\n")
             found = found + message
             foundFlag = True
@@ -291,7 +347,7 @@ def sms():
             message = ("College Ten for lunch,\n")
             found = found + message
             foundFlag = True
-        if message_body in lunchArray_merrill:
+        if message_body in lunchArray_merill:
             message = ("Merill for lunch,\n")
             found = found + message
             foundFlag = True
@@ -313,7 +369,7 @@ def sms():
             message = ("College Ten for dinner,\n")
             found = found + message
             foundFlag = True
-        if message_body in dinnerArray_merrill:
+        if message_body in dinnerArray_merill:
             message = ("Merill for dinner,\n")
             found = found + message
             foundFlag = True
@@ -335,7 +391,7 @@ def sms():
             message = ("College Ten for late night,\n")
             found = found + message
             foundFlag = True
-        if message_body in lateNightArray_merrill:
+        if message_body in lateNightArray_merill:
             message = ("Merill for late night,\n")
             found = found + message
             foundFlag = True
