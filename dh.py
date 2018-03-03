@@ -6,7 +6,6 @@ import re
 import urllib.request
 from bs4 import BeautifulSoup
 
-
 app = Flask(__name__)
 
 @app.route("/sms", methods=['GET', 'POST'])
@@ -60,13 +59,10 @@ def sms():
         elif "Late Night" in x:
             lateNightIndex=end_array.index(x)
 
-
     breakfastArray_cowell=end_array[breakfastIndex:lunchIndex]
     lunchArray_cowell=end_array[lunchIndex+1:dinnerIndex]
     dinnerArray_cowell=end_array[dinnerIndex+1:lateNightIndex]
     lateNightArray_cowell=end_array[lateNightIndex+1:-9]
-
-
 
     #ten
     end_array=[]
@@ -113,9 +109,6 @@ def sms():
     dinnerArray_ten=end_array[dinnerIndex+1:lateNightIndex]
     lateNightArray_ten=end_array[lateNightIndex+1:-9]
 
-
-
-
     #merill
     end_array=[]
     breakfastIndex=0
@@ -155,14 +148,10 @@ def sms():
         elif "Late Night" in x:
             lateNightIndex=end_array.index(x)
 
-
     breakfastArray_merill=end_array[breakfastIndex:lunchIndex]
     lunchArray_merill=end_array[lunchIndex+1:dinnerIndex]
     dinnerArray_merill=end_array[dinnerIndex+1:lateNightIndex]
     lateNightArray_merill=end_array[lateNightIndex+1:-9]
-
-
-
 
     #porter
     end_array=[]
@@ -203,12 +192,10 @@ def sms():
         elif "Late Night" in x:
             lateNightIndex=end_array.index(x)
 
-
     breakfastArray_porter=end_array[breakfastIndex:lunchIndex]
     lunchArray_porter=end_array[lunchIndex+1:dinnerIndex]
     dinnerArray_porter=end_array[dinnerIndex+1:lateNightIndex]
     lateNightArray_porter=end_array[lateNightIndex+1:-9]
-
 
     #rcc
     end_array=[]
@@ -249,13 +236,10 @@ def sms():
         elif "Late Night" in x:
             lateNightIndex=end_array.index(x)
 
-
     breakfastArray_rrc=end_array[breakfastIndex:lunchIndex]
     lunchArray_rrc=end_array[lunchIndex+1:dinnerIndex]
     dinnerArray_rrc=end_array[dinnerIndex+1:lateNightIndex]
     lateNightArray_rrc=end_array[lateNightIndex+1:-9]
-
-
 
     #lowering all
 
@@ -280,9 +264,6 @@ def sms():
     dinnerArray_rcc=[x.lower() for x in dinnerArray_rcc]
     lateNightArray_rcc=[x.lower() for x in lateNightArray_rcc]
 
-
-
-
     print(breakfastArray_ten)
     print('\n')
     print(lunchArray_ten)
@@ -290,28 +271,10 @@ def sms():
     print(dinnerArray_ten)
     print('\n')
     print(lateNightArray_ten)
-    # print(breakfastArray_ten)
-    # print(lunchArray_ten)
-    # print(dinnerArray_ten)
-    # print(lateNightArray_ten)
-    # print(breakfastArray_cowell)
-    # print(lunchArray_cowell)
-    # print(dinnerArray_cowell)
-    # print(lateNightArray_cowell)
-    # print(breakfastArray_porter)
-    # print(lunchArray_porter)
-    # print(dinnerArray_porter)
-    # print(lateNightArray_porter)
-    # print(breakfastArray_rcc)
-    # print(lunchArray_rcc)
-    # print(dinnerArray_rcc)
-    # print(lateNightArray_rcc)
-
 
     found = 'Found in '
     array = [cowell,ten,merill,porter,rcc]
     message=[]
-    #page = requests.get(cowell[0])
     foundFlag = False
     for x in breakfastArray_cowell:
         if message_body in x:
@@ -413,7 +376,6 @@ def sms():
             message.append("Rachel Carson College for late night, ")
             foundFlag = True
             break
-
 
     if foundFlag == False:
         found = "Item not found."
