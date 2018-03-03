@@ -30,7 +30,6 @@ def sms():
         found = "Item not found."
 
     resp = MessagingResponse()
-    #resp.message("You said: {}".format(found))
     resp.message(found)
     return str(resp)
 
