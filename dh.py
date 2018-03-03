@@ -1,19 +1,19 @@
-from flask import Flask, request, redirect
-from twilio.twiml.messaging_response import MessagingResponse
-from twilio import twiml
-import requests
+# from flask import Flask, request, redirect
+# from twilio.twiml.messaging_response import MessagingResponse
+# from twilio import twiml
+# import requests
 import re
-import urllib2
+import urllib.request
 from bs4 import BeautifulSoup
 
 
-pp = Flask(__name__)
+#app = Flask(__name__)
 
-@app.route("/sms", methods=['GET', 'POST'])
+#@app.route("/sms", methods=['GET', 'POST'])
 
 def sms(message_body):
 
-    message_body = request.form['Body'].lower()
+    #message_body = request.form['Body'].lower()
 
     cowell = 'http://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=05&locationName=Cowell&sName=&naFlag='
     ten = 'http://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=40&locationName=College+Nine+%26+Ten&sName=&naFlag='
@@ -32,7 +32,7 @@ def sms(message_body):
     dinnerIndex=0
     lateNightIndex=0
 
-    html = urllib2.urlopen(cowell)
+    html = urllib.request.urlopen(cowell)
     soup = BeautifulSoup(html, "html.parser")
     data = soup.findAll(text=True)
     result = filter(visible, data)
@@ -44,7 +44,7 @@ def sms(message_body):
     dinnerArray_cowell=[]
     lateNightArray_cowell=[]
 
-    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info"]#,"\xa0"]
+    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info","\xa0"]
 
     for x in raw_code:
         for y in wordbank:
@@ -79,7 +79,7 @@ def sms(message_body):
     dinnerIndex=0
     lateNightIndex=0
 
-    html = urllib2.urlopen(ten)
+    html = urllib.request.urlopen(ten)
     soup = BeautifulSoup(html, "html.parser")
     data = soup.findAll(text=True)
     result = filter(visible, data)
@@ -91,7 +91,7 @@ def sms(message_body):
     dinnerArray_ten=[]
     lateNightArray_ten=[]
 
-    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info"]#,"\xa0"]
+    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info","\xa0"]
 
     for x in raw_code:
         for y in wordbank:
@@ -127,7 +127,7 @@ def sms(message_body):
     dinnerIndex=0
     lateNightIndex=0
 
-    html = urllib2.urlopen(merill)
+    html = urllib.request.urlopen(merill)
     soup = BeautifulSoup(html, "html.parser")
     data = soup.findAll(text=True)
     result = filter(visible, data)
@@ -139,7 +139,7 @@ def sms(message_body):
     dinnerArray_merill=[]
     lateNightArray_merill=[]
 
-    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info"]#,"\xa0"]
+    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info","\xa0"]
 
     for x in raw_code:
         for y in wordbank:
@@ -175,7 +175,7 @@ def sms(message_body):
     dinnerIndex=0
     lateNightIndex=0
 
-    html = urllib2.urlopen(porter)
+    html = urllib.request.urlopen(porter)
     soup = BeautifulSoup(html, "html.parser")
     data = soup.findAll(text=True)
     result = filter(visible, data)
@@ -187,7 +187,7 @@ def sms(message_body):
     dinnerArray_porter=[]
     lateNightArray_porter=[]
 
-    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info"]#,"\xa0"]
+    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info","\xa0"]
 
     for x in raw_code:
         for y in wordbank:
@@ -221,7 +221,7 @@ def sms(message_body):
     dinnerIndex=0
     lateNightIndex=0
 
-    html = urllib2.urlopen(rcc)
+    html = urllib.request.urlopen(rcc)
     soup = BeautifulSoup(html, "html.parser")
     data = soup.findAll(text=True)
     result = filter(visible, data)
@@ -233,7 +233,7 @@ def sms(message_body):
     dinnerArray_rcc=[]
     lateNightArray_rcc=[]
 
-    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info"]#,"\xa0"]
+    wordbank=["\n","Recipe Name Is Displayed Here","Nutrition Info","\xa0"]
 
     for x in raw_code:
         for y in wordbank:
@@ -314,103 +314,119 @@ def sms(message_body):
 
     found = 'Found in '
     array = [cowell,ten,merill,porter,rcc]
+    message=[]
     #page = requests.get(cowell[0])
     foundFlag = False
-    for college in array:
-
-        if message_body in breakfastArray_cowell:
-            message = ("Cowell for breakfast,\n")
-            found = found + message
+    for x in breakfastArray_cowell:
+        if message_body in x:
+            message.append("Cowell for breakfast,")
             foundFlag = True
-        if message_body in breakfastArray_ten:
-            message = ("College Ten for breakfast,\n")
-            found = found + message
+            break
+    for x in breakfastArray_ten:
+        if message_body in x:
+            message.append("College Ten for breakfast,")
             foundFlag = True
-        if message_body in breakfastArray_merill:
-            message = ("Merill for breakfast,\n")
-            found = found + message
+            break
+    for x in breakfastArray_merill:
+        if message_body in x:
+            message.append("Merill for breakfast,")
             foundFlag = True
-        if message_body in breakfastArray_porter:
-            message = ("Porter for breakfast,\n")
-            found = found + message
+            break
+    for x in breakfastArray_porter:
+        if message_body in x:
+            message.append("Porter for breakfast,")
             foundFlag = True
-        if message_body in breakfastArray_rcc:
-            message = ("Rachel Carson College for breakfast,\n")
-            found = found + message
+            break
+    for x in breakfastArray_rcc:
+        if message_body in x:
+            message.append("Rachel Carson College for breakfast,")
             foundFlag = True
-
-        if message_body in lunchArray_cowell:
-            message = ("Cowell for lunch,\n")
-            found = found + message
+            break
+    for x in lunchArray_cowell:
+        if message_body in x:
+            message.append("Cowell for lunch,")
             foundFlag = True
-        if message_body in lunchArray_ten:
-            message = ("College Ten for lunch,\n")
-            found = found + message
+            break
+    for x in lunchArray_ten:
+        if message_body in x:
+            message.append("College Ten for lunch,")
             foundFlag = True
-        if message_body in lunchArray_merill:
-            message = ("Merill for lunch,\n")
-            found = found + message
+            break
+    for x in lunchArray_merill:
+        if message_body in x:
+            message.append("Merill for lunch,")
             foundFlag = True
-        if message_body in lunchArray_porter:
-            message = ("Porter for lunch,\n")
-            found = found + message
+            break
+    for x in lunchArray_porter:
+        if message_body in x:
+            message.append("Porter for lunch,")
             foundFlag = True
-        if message_body in lunchArray_rcc:
-            message = ("Rachel Carson College for lunch,\n")
-            found = found + message
+            break
+    for x in lunchArray_rcc:
+        if message_body in x:
+            message.append("Rachel Carson College for lunch,")
             foundFlag = True
-
-
-        if message_body in dinnerArray_cowell:
-            message = ("Cowell for dinner,\n")
-            found = found + message
+            break
+    for x in dinnerArray_cowell:
+        if message_body in x:
+            message.append("Cowell for dinner,")
             foundFlag = True
-        if message_body in dinnerArray_ten:
-            message = ("College Ten for dinner,\n")
-            found = found + message
+            break
+    for x in dinnerArray_ten:
+        if message_body in x:
+            message.append("College Ten for dinner,")
             foundFlag = True
-        if message_body in dinnerArray_merill:
-            message = ("Merill for dinner,\n")
-            found = found + message
+            break
+    for x in dinnerArray_merill:
+        if message_body in x:
+            message.append("Merill for dinner,")
             foundFlag = True
-        if message_body in dinnerArray_porter:
-            message = ("Porter for dinner,\n")
-            found = found + message
+            break
+    for x in dinnerArray_porter:
+        if message_body in x:
+            message.append("Porter for dinner,")
             foundFlag = True
-        if message_body in dinnerArray_rcc:
-            message = ("Rachel Carson College for dinner,\n")
-            found = found + message
+            break
+    for x in dinnerArray_rcc:
+        if message_body in x:
+            message.append("Rachel Carson College for dinner,")
             foundFlag = True
-
-
-        if message_body in lateNightArray_cowell:
-            message = ("Cowell for late night,\n")
-            found = found + message
+            break
+    for x in lateNightArray_cowell:
+        if message_body in x:
+            message.append("Cowell for late night,")
             foundFlag = True
-        if message_body in lateNightArray_ten:
-            message = ("College Ten for late night,\n")
-            found = found + message
+            break
+    for x in lateNightArray_ten:
+        if message_body in x:
+            message.append("College Ten for late night,")
             foundFlag = True
-        if message_body in lateNightArray_merill:
-            message = ("Merill for late night,\n")
-            found = found + message
+            break
+    for x in lateNightArray_merill:
+        if message_body in x:
+            message.append("Merill for late night,")
             foundFlag = True
-        if message_body in lateNightArray_porter:
-            message = ("Porter for late night,\n")
-            found = found + message
+            break
+    for x in lateNightArray_porter:
+        if message_body in x:
+            message.append("Porter for late night,")
             foundFlag = True
-        if message_body in lateNightArray_rcc:
-            message = ("Rachel Carson College for late night,\n")
-            found = found + message
+            break
+    for x in lateNightArray_rcc:
+        if message_body in x:
+            message.append("Rachel Carson College for late night,")
             foundFlag = True
+            break
 
 
     if foundFlag == False:
         found = "Item not found."
+    else:
+        print(message)
 
-    resp = MessagingResponse()
-    resp.message(found)
-    return str(resp)
+    #resp = MessagingResponse()
+    #resp.message(found)
+    #return str(resp)
 
 def visible(element):
     if element.parent.name in ['style', 'script', '[document]', 'head', 'title']:
@@ -418,6 +434,6 @@ def visible(element):
     elif re.match('<!--.*-->', str(element.encode('utf-8'))):
         return False
     return True
-
-if __name__ == "__main__":
-    app.run(debug=True)
+sms('potato')
+#if __name__ == "__main__":
+#    app.run(debug=True)
