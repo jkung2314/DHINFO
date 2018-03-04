@@ -56,13 +56,13 @@ def sms():
             lunchIndex=end_array.index(x)
         elif "Dinner" in x:
             dinnerIndex=end_array.index(x)
-        elif "Late Night" in x:
-            lateNightIndex=end_array.index(x)
+        #elif "Late Night" in x:
+        #    lateNightIndex=end_array.index(x)
 
     breakfastArray_cowell=end_array[breakfastIndex:lunchIndex]
     lunchArray_cowell=end_array[lunchIndex+1:dinnerIndex]
-    dinnerArray_cowell=end_array[dinnerIndex+1:lateNightIndex]
-    lateNightArray_cowell=end_array[lateNightIndex+1:-9]
+    dinnerArray_cowell=end_array[dinnerIndex+1:-9]
+    #lateNightArray_cowell=end_array[lateNightIndex+1:-9]
 
     #ten
     end_array=[]
@@ -233,13 +233,13 @@ def sms():
             lunchIndex=end_array.index(x)
         elif "Dinner" in x:
             dinnerIndex=end_array.index(x)
-        elif "Late Night" in x:
-            lateNightIndex=end_array.index(x)
+        #elif "Late Night" in x:
+        #    lateNightIndex=end_array.index(x)
 
-    breakfastArray_rrc=end_array[breakfastIndex:lunchIndex]
-    lunchArray_rrc=end_array[lunchIndex+1:dinnerIndex]
-    dinnerArray_rrc=end_array[dinnerIndex+1:lateNightIndex]
-    lateNightArray_rrc=end_array[lateNightIndex+1:-9]
+    breakfastArray_rcc=end_array[breakfastIndex:lunchIndex]
+    lunchArray_rcc=end_array[lunchIndex+1:dinnerIndex]
+    dinnerArray_rcc=end_array[dinnerIndex+1:-9]
+    #lateNightArray_rcc=end_array[lateNightIndex+1:-9]
 
     #lowering all
 
